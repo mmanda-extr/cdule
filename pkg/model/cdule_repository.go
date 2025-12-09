@@ -1,10 +1,9 @@
 package model
 
 import (
-	"time"
-
 	"gorm.io/gorm"
-
+	"time"
+	
 	"github.com/mmanda-extr/cdule/pkg"
 )
 
