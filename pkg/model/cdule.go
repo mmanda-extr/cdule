@@ -1,8 +1,9 @@
 package model
 
 import (
-	"gorm.io/gorm"
 	"time"
+
+	"gorm.io/gorm"
 )
 
 // JobStatus for job status
@@ -58,6 +59,7 @@ type Schedule struct {
 	DeletedAt   gorm.DeletedAt `gorm:"index"`
 	WorkerID    string         `json:"worker_id"`
 	JobData     string         `json:"job_data"`
+	DeviceType  string         `json:"device_type"`
 }
 
 // Worker Node health check via the heartbeat
