@@ -1,8 +1,9 @@
 package model
 
 import (
-	"gorm.io/gorm"
 	"time"
+
+	"gorm.io/gorm"
 
 	"github.com/mmanda-extr/cdule/pkg"
 )
@@ -119,7 +120,7 @@ func (c cduleRepository) CreateJob(job *Job) (*Job, error) {
 
 // UpdateJob to update a job
 func (c cduleRepository) UpdateJob(job *Job) (*Job, error) {
-	if err := c.DB.Updates(job).Error; err != nil {
+	if err := c.DB.Where("id = ?", job.ID).Updates(job).Error; err != nil {
 		return nil, err
 	}
 	return job, nil
