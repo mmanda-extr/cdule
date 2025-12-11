@@ -84,6 +84,7 @@ func (j *AbstractJob) Build(cronExpression string) (*model.Job, error) {
 		WorkerID:    WorkerID,
 		JobID:       job.ID,
 		JobData:     job.JobData,
+		DeviceType:  j.Job.GetDeviceType(),
 	}
 	_, err = model.CduleRepos.CduleRepository.CreateSchedule(firstSchedule)
 	if err != nil {
