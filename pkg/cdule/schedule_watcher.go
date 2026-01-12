@@ -84,12 +84,17 @@ func runNextScheduleJobs(scheduleStart, scheduleEnd int64) {
 		var jobHistory *model.JobHistory
 		if err == nil {
 			jobHistory, err = model.CduleRepos.CduleRepository.GetJobHistoryForSchedule(schedule.ExecutionID)
-			
+
 			// Get job type from registry with mutex protection
+
 			JobRegistryMutex.RLock()
-			j := JobRegistry[scheduledJob.JobName]
+			j, ok := JobRegistry[scheduledJob.JobName]
 			JobRegistryMutex.RUnlock()
-			
+
+			if !ok || j == nil {
+				continue
+			}
+
 			jobInstance := reflect.New(j).Elem().Interface()
 
 			if err != nil && err.Error() == "record not found" && jobHistory != nil {
