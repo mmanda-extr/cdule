@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"reflect"
+	"sync"
 	"time"
 
 	"github.com/mmanda-extr/cdule/pkg"
@@ -17,10 +18,16 @@ import (
 // JobRegistry job registry
 var JobRegistry = make(map[string]reflect.Type)
 
+// JobRegistryMutex protects concurrent access to JobRegistry
+var JobRegistryMutex sync.RWMutex
+
 // ScheduleParser cron parser
 var ScheduleParser cron.Parser
 
 func registerType(job Job) {
+	JobRegistryMutex.Lock()
+	defer JobRegistryMutex.Unlock()
+	
 	t := reflect.TypeOf(job).Elem()
 	JobRegistry[job.JobName()] = t
 }
